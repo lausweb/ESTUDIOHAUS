@@ -70,7 +70,7 @@ $(function () {
 
     function update() {
         const scrollY = window.scrollY;
-        const vh = window.innerHeight;
+        const vh = document.documentElement.clientHeight;
         const viewportBottom = scrollY + vh;
         const isMobile = window.innerWidth < 768;
 
