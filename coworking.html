@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Laura Lazaro y Claudia Buezas">
+        <meta name="description" content="Web developer working with HTML5, CSS3 and JavaScript">
+        <title>Estudio Haus</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="icon" type="image/x-icon" href="media/icon/favicon.ico">
+    </head>
+    <body>
+        <div id="logo-overlay" aria-hidden="true">
+            <img src="media/icon/Estudio.png" alt="Estudio" class="logo-part estudio" />
+            <img src="media/icon/HAUS.png" alt="Haus" class="logo-part haus" />
+        </div>
+        <nav class="navbar navbar-expand-md fixed-top navbar-blur">
+            <div class="container justify-content-end">
+                <button class="navbar-toggler custom-toggle white" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar"
+                        aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                <span class="toggle-line"></span>
+                <span class="toggle-line"></span>
+                </button>
+                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>                    
+                    <div class="menu-blur">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><h5>HOME</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="coworking.html"><h5>COWORKING</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="tienda.html"><h5>TIENDA</h5></a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse offcanvas-body" id="navbarNav">
+                    <div class="menu-blur">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><h5>HOME</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="coworking.html"><h5>COWORKING</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="tienda.html"><h5>TIENDA</h5></a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </nav>
+        <header id="header-falso">
+        </header>
+    <main>
+        <section class="sello position-relative">
+            <img src="media/img/img_entorno/cafe_libros.png" 
+                alt="Espacio" 
+                class="hero-bg w-100 h-100 position-absolute top-0 start-0 object-fit-cover">
+
+            <div class="container position-relative h-100 d-flex justify-content-center align-items-center">
+            <img src="media/img/img_muebles_sinfondo/SELLO.png" 
+                alt="sello" 
+                class="img-sello position-absolute">
+            <div class="info-coworking text-center position-absolute">
+                <h4>C/DE FERNANDO <br> VI, 24, CENTRO, <br>28004, MAD</h4>
+                <h3 class="my-3">Lunes a Sábado [8am-20pm]</h3>
+                <h2>coworking</h2>
+            </div>
+            </div>
+        </section>
+        <section id="section2-1" class="py-5 mb-4">
+            <div class="container">
+                <div class="row">
+                <div class="col-12 text-end mt-3">
+                    <h1 class="anim-title">
+                    <span class="word-un">Un </span>
+                    <span class="word-tu">(tu) </span>
+                    <span class="word-lugar"> lugar.</span>
+                    </h1>
+                </div>
+                </div>
+                <div class="row my-5">
+                    <div class="d-flex gap-3 justify-content-end images-row">
+                    <img id="img-quiet" class="lugar-img img-fluid active"
+                        src="media/img/img_entorno/mesas_trabajo.png" alt="Quiet room">
+
+                    <img id="img-voice" class="lugar-img img-fluid"
+                        src="media/img/img_entorno/habitacion_sillas.png" alt="Voice room">
+
+                    <img id="img-pet" class="lugar-img img-fluid"
+                        src="media/img/img_entorno/chica_perrito.png" alt="Pet room">
+
+                    <img id="img-coffee" class="lugar-img img-fluid"
+                        src="media/img/img_entorno/estanteria_2.png" alt="Coffee room">
+                    </div>
+                </div>
+                <div class="row mx-2 my-5">
+                <div class="col-12">
+                    <div class="accordion custom-accordion" id="espaciosAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseQuiet"
+                            data-image-target="img-quiet">
+                            [01_QUIET]
+                        </button>
+                        </h2>
+                        <div id="collapseQuiet"
+                        class="accordion-collapse collapse show"
+                        data-bs-parent="#espaciosAccordion">
+                        <div class="accordion-body">
+                            <p>Silencio, luz suave y una atmósfera que invita a concentrarse. La Quiet Room está pensada para quienes necesitan desconectar del ruido. Su volumen es más íntimo y cerrado, con asientos cómodos, enchufes y mesas individuales. Ideal para leer, estudiar o trabajar en calma. Aquí cada sonido se atenúa, cada sorbo se vuelve pausado, y el tiempo parece estirarse. Un refugio perfecto para mentes creativas o días que piden silencio.</p> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseVoice"
+                            data-image-target="img-voice">
+                            [02_VOICE]
+                        </button>
+                        </h2>
+                        <div id="collapseVoice"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#espaciosAccordion">
+                        <div class="accordion-body">
+                            <p>La Voice Room está hecha para hablar. Es la sala más social, con un volumen abierto y buena acústica para el intercambio de ideas. Diseñada para grupos pequeños, reuniones o charlas improvisadas. Su mobiliario flexible permite moverse, compartir y conectar. Aquí la conversación fluye. Perfecta para encuentros espontáneos, brainstorming o simplemente ponerse al día con alguien.</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapsePet"
+                            data-image-target="img-pet">
+                            [03_PET]
+                        </button>
+                        </h2>
+                        <div id="collapsePet"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#espaciosAccordion">
+                        <div class="accordion-body">
+                            <p>Una sala que late con compañía. La Pet-Friendly Room acoge tanto a personas como a sus mascotas, en un espacio amplio, ventilado y con zonas cómodas para ambos. El mobiliario es resistente y cálido, pensado para quienes no quieren dejar a su compañero fuera. Ideal para trabajar, charlar o disfrutar de un café mientras tu mascota descansa cerca o interactua con otros. Aquí la experiencia es más libre, más viva y compartida.</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseCoffee"
+                            data-image-target="img-coffee">
+                            [04_COFFEE]
+                        </button>
+                        </h2>
+                        <div id="collapseCoffee"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#espaciosAccordion">
+                        <div class="accordion-body">
+                            <p>Un espacio donde el aroma lo llena todo. La Coffee Room es el corazón del lugar, pensada para quienes buscan disfrutar del café como un ritual. Su volumen es amplio y luminoso, con una barra central y mesas repartidas que invitan a quedarse. Aquí se conversa, se observa y se saborea sin prisa. Perfecta para disfrutar de un flat white o descubrir un nuevo origen, mientras el ambiente vibra con la calma cálida de un buen café.</p>              </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </section>
+        </main>
+        <footer class="py-4">
+        <div class="container d-flex justify-content-between flex-wrap mt-5">
+            <div>
+            <p class="mb-0 mt-5">Lunes a Sábado [8am-20pm]</p>
+            <p class="mb-0">C. de Fernando VI, 24, Centro, 28004 Madrid</p>
+            </div>
+            <div class="footer-right">
+                <p class="mb-0 mt-5">Estudio Haus ©</p>
+                <p class="mb-0">Términos y condiciones</p>
+            </div>
+        </div>
+          <img src="media/icon/estudiohaus.png" alt="Haus" class="logo-full haus" />
+        </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+        <script src="js/script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </body>
+</html>

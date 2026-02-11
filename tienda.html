@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Laura Lazaro y Claudia Buezas">
+        <meta name="description" content="Web developer working with HTML5, CSS3 and JavaScript">
+        <title>Estudio Haus</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="icon" type="image/x-icon" href="media/icon/favicon.ico">
+    </head>
+    <body>
+        <div id="logo-overlay" aria-hidden="true">
+            <img src="media/icon/Estudio.png" alt="Estudio" class="logo-part estudio" />
+            <img src="media/icon/HAUS.png" alt="Haus" class="logo-part haus" />
+        </div>
+        <nav class="navbar navbar-expand-md fixed-top navbar-blur">
+            <div class="container justify-content-end">
+                <button class="navbar-toggler custom-toggle" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar"
+                        aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                <span class="toggle-line"></span>
+                <span class="toggle-line"></span>
+                </button>
+                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>                    
+                    <div class="menu-blur">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><h5>HOME</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="coworking.html"><h5>COWORKING</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="tienda.html"><h5>TIENDA</h5></a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse offcanvas-body" id="navbarNav">
+                    <div class="menu-blur">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><h5>HOME</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="coworking.html"><h5>COWORKING</h5></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="tienda.html"><h5>TIENDA</h5></a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </nav>
+    <header id="hero-tienda" class="min-vh-100 d-flex align-items-center">
+        <div class="container text-center">
+            <h1 class="display-1 fw-normal hero-title-top">
+            Explora
+            </h1>
+            <div class="hero-chair-wrapper hero-chair-wrapper-3d">
+                <img
+                    src="media/img/img_muebles_sinfondo/silla_marron_madera.png"
+                    alt="Silla"
+                    class="img-fluid mx-auto d-block hero-chair">
+            </div>
+            <h1 class="display-1 fw-normal hero-title-bottom">
+            nuestra <span class="fst-italic">tienda.</span>
+            </h1>
+            <p class="hero-paragraph mx-auto">
+            Aquí encontrarás cada pieza disponible para adaptar a tu espacio. Si el modelo que buscas no está, puede que lo encuentres en otro tono. <br>Puedes comprarlo online o hacer tu pedido directamente desde nuestro local con ayuda de nuestro equipo. Además, disfruta de un 12 % de descuento con el código ESTUDIOHAUS-DESC12 hasta el 31/12.
+            </p>
+        </div>
+    </header>
+    <main>
+       <section class="py-5 tienda-cards ">
+            <div class="container mb-5">
+                <div class="row g-4">
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/lampara_oliva_recortada.png" alt="Lámpara oliva" class="img-fluid">
+                    <p class="badge-custom">Best Seller</p>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/silla_burdeos_recortada.png" alt="Silla burdeos" class="img-fluid">
+                    <p class="badge-custom">Best Seller</p>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4 ">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">KAVE HOME</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">VARIER</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="cir">
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row g-4">
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/silla_blanca_baja.png" alt="Lámpara oliva" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/lampara_solar.png" alt="Silla burdeos" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4 ">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">NAHARRO</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">FRITZ HANSEN</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="cir">
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row g-4">
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/lampara_roja_ondulada.png" alt="Lámpara oliva" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/silla_naranja_iluminada.png" alt="Silla burdeos" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4 ">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">LIGNE ROSET</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">VARIER</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="cir">
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row g-4">
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/mesita_azul.png" alt="Lámpara oliva" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 cards">
+                    <div class="card-img position-relative overflow-hidden rounded-4">
+                    <img src="media/img/img_entorno/taburetes_colores.png" alt="Silla burdeos" class="img-fluid">
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4 ">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">VARIER</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="img-fluid">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-text d-flex justify-content-between align-items-center border border-beige rounded-4">
+                    <div>
+                        <p class="mb-0">Descubre más</p>
+                        <h4 class="mb-0">BONALDO</h4>
+                    </div>
+                    <div class="circle">
+                        <img src="media/icon/flecha.png" alt="Flecha" class="cir">
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+        </main>
+       <footer class="py-4">
+        <div class="container d-flex justify-content-between flex-wrap mt-5">
+            <div>
+            <p class="mb-0 mt-5">Lunes a Sábado [8am-20pm]</p>
+            <p class="mb-0">C. de Fernando VI, 24, Centro, 28004 Madrid</p>
+            </div>
+            <div class="footer-right">
+                <p class="mb-0 mt-5">Estudio Haus ©</p>
+                <p class="mb-0">Términos y condiciones</p>
+            </div>
+        </div>
+          <img src="media/icon/estudiohaus.png" alt="Haus" class="logo-full haus" />
+        </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+        <script src="js/script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </body>
+</html>
+
