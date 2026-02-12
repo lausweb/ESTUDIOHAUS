@@ -93,7 +93,7 @@ $(function () {
         const He = computeExpandedHeight();
 
         const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-        const topOffset = 1 * rem;
+        const topOffset = 12;
 
         const centerSmall = isMobile
             ? vh - Hc - topOffset
