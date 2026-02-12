@@ -27,25 +27,32 @@ $(function () {
   });
 
  // LOGO OVERLAY RESPONSIVE
+// LOGO OVERLAY RESPONSIVE
 (function () {
-
     const $overlay = $("#logo-overlay");
     const overlay = $overlay[0];
     const imgs = $overlay.find(".logo-part").toArray();
     const $footer = $("footer");
     const footer = $footer[0];
+    const header = $("header")[0] || null;
 
     if (!overlay || imgs.length !== 2 || !footer) return;
 
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const lerp = (a, b, t) => a + (b - a) * t;
 
-    const HEIGHT_COLLAPSED = 20;
-    const TOP_OFFSET = 12; // 👈 fijo a 12px del top en móvil
+    function imagesReady() {
+        return Promise.all(
+            imgs.map(img => new Promise(res => {
+                if (img.complete && img.naturalWidth) return res();
+                img.addEventListener("load", res, { once: true });
+                img.addEventListener("error", res, { once: true });
+            }))
+        );
+    }
 
     function computeExpandedHeight() {
         const vw = window.innerWidth;
-
         const sumRatios = imgs.reduce((acc, img) => {
             const r = (img.naturalWidth && img.naturalHeight)
                 ? img.naturalWidth / img.naturalHeight
@@ -60,10 +67,11 @@ $(function () {
         return Math.min(base, 200);
     }
 
-    function update() {
+    const HEIGHT_COLLAPSED = 20;
 
+    function update() {
         const scrollY = window.scrollY;
-        const vh = document.documentElement.clientHeight;
+        const vh = window.innerHeight;
         const viewportBottom = scrollY + vh;
         const isMobile = window.innerWidth < 768;
 
@@ -74,69 +82,72 @@ $(function () {
         const Hc = HEIGHT_COLLAPSED;
         const He = computeExpandedHeight();
 
-        overlay.style.setProperty("--logo-h", Hc + "px");
+        // --- PUNTO DE PARTIDA ---
+        // Desktop: centrado vertical, Mobile: arriba
+        const centerSmall = isMobile ? vh - Hc : Math.round((vh - Hc) / 2);
 
-        // ---------------- MOBILE ----------------
-        if (isMobile) {
+        if (viewportBottom < footerTopAbs) {
+            overlay.classList.remove("footer-bottom");
+            overlay.style.setProperty("--logo-h", Hc + "px");
+            overlay.style.bottom = centerSmall + "px";
+        } else {
+            const span = Math.max(1, footerBottomAbs - footerTopAbs);
+            const k = clamp((viewportBottom - footerTopAbs) / span, 0, 1);
 
-            // Mientras no llega al footer → fijo arriba
-            if (viewportBottom < footerTopAbs) {
-
-                overlay.style.top = TOP_OFFSET + "px";
-                overlay.style.bottom = "auto";
-                overlay.style.setProperty("--logo-h", Hc + "px");
-
-            } else {
-
-                const span = Math.max(1, footerBottomAbs - footerTopAbs);
-                const k = clamp((viewportBottom - footerTopAbs) / span, 0, 1);
-
-                // Interpolamos desde top fijo hasta bottom 0
-                const move = lerp(TOP_OFFSET, 0, k);
-
-                overlay.style.top = "auto";
-                overlay.style.bottom = move + "px";
-
-                const growStart = 0.6;
-                const growT = (k <= growStart) ? 0 : (k - growStart) / (1 - growStart);
-                const Ht = Math.round(lerp(Hc, He, clamp(growT, 0, 1)));
-
-                overlay.style.setProperty("--logo-h", Ht + "px");
-            }
-
-        }
-        // ---------------- DESKTOP ----------------
-        else {
-
-            const centerSmall = Math.round((vh - Hc) / 2);
-
-            if (viewportBottom < footerTopAbs) {
-
-                overlay.style.bottom = centerSmall + "px";
-                overlay.style.top = "auto";
-                overlay.style.setProperty("--logo-h", Hc + "px");
-
-            } else {
-
-                const span = Math.max(1, footerBottomAbs - footerTopAbs);
-                const k = clamp((viewportBottom - footerTopAbs) / span, 0, 1);
-
+            if (viewportBottom <= footerBottomAbs) {
+                // Interpolamos la posición hacia abajo
                 const bottomPx = Math.round(lerp(centerSmall, 0, k));
 
-                overlay.style.bottom = bottomPx + "px";
-                overlay.style.top = "auto";
-
+                // Interpolamos el tamaño
                 const growStart = 0.6;
                 const growT = (k <= growStart) ? 0 : (k - growStart) / (1 - growStart);
                 const Ht = Math.round(lerp(Hc, He, clamp(growT, 0, 1)));
 
+                overlay.classList.remove("footer-bottom");
+                overlay.style.bottom = bottomPx + "px";
                 overlay.style.setProperty("--logo-h", Ht + "px");
+            } else {
+                overlay.style.bottom = "0px";
+                overlay.style.setProperty("--logo-h", He + "px");
+                overlay.classList.add("footer-bottom");
+                footer.style.paddingBottom = (He + 150) + "px";
             }
+        }
+
+        // --- Blend mode ---
+        let disableBlend = false;
+        const overlayRect = overlay.getBoundingClientRect();
+
+        if (header) {
+            const headerRect = header.getBoundingClientRect();
+            const overlapHeader =
+                overlayRect.top < headerRect.bottom && overlayRect.bottom > headerRect.top;
+            if (overlapHeader) disableBlend = true;
+        }
+
+        const footerRectViewport = footer.getBoundingClientRect();
+        const overlapFooter =
+            overlayRect.top < footerRectViewport.bottom &&
+            overlayRect.bottom > footerRectViewport.top;
+
+        if (overlapFooter) disableBlend = true;
+
+        const offcanvasOpen = $("body").hasClass("offcanvas-open");
+        if (offcanvasOpen) disableBlend = true;
+
+        if (disableBlend) {
+            $overlay.addClass("no-blend");
+            $overlay.find(".estudio").attr("src", "media/icon/estudio.png");
+            $overlay.find(".haus").attr("src", "media/icon/haus.png");
+        } else {
+            $overlay.removeClass("no-blend");
+            $overlay.find(".estudio").attr("src", "media/icon/estudio_blanco.png");
+            $overlay.find(".haus").attr("src", "media/icon/haus_blanco.png");
         }
     }
 
     let ticking = false;
-    function onScroll() {
+    function onScrollOrResize() {
         if (ticking) return;
         ticking = true;
         requestAnimationFrame(() => {
@@ -145,12 +156,22 @@ $(function () {
         });
     }
 
-    $(window).on("scroll", onScroll);
-    $(window).on("resize", update);
+    const ro = ("ResizeObserver" in window)
+        ? new ResizeObserver(onScrollOrResize)
+        : null;
 
-    update();
+    if (ro) ro.observe(footer);
 
+    imagesReady().then(() => {
+        update();
+        $(window).on("scroll", onScrollOrResize);
+        $(window).on("resize", onScrollOrResize);
+
+        const mq = window.matchMedia?.(`(resolution: ${window.devicePixelRatio}dppx)`);
+        if (mq && mq.addEventListener) mq.addEventListener("change", onScrollOrResize);
+    });
 })();
+
 
 
   // SILLA ENTORNO
