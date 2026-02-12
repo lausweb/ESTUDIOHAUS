@@ -42,6 +42,13 @@ $(function () {
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const lerp = (a, b, t) => a + (b - a) * t;
 
+    let fixedVH;
+    window.__lastWidth = window.innerWidth;
+
+    function setFixedViewportHeight() {
+        fixedVH = document.documentElement.clientHeight;
+    }
+
     function imagesReady() {
         return Promise.all(
             imgs.map(img => new Promise(res => {
@@ -71,16 +78,10 @@ $(function () {
 
     const HEIGHT_COLLAPSED = 20;
 
-    function getViewportHeight() {
-        return window.visualViewport
-            ? window.visualViewport.height
-            : document.documentElement.clientHeight;
-    }
-
     function update() {
 
         const scrollY = window.scrollY;
-        const vh = getViewportHeight();
+        const vh = fixedVH; // ALTURA CONGELADA
         const viewportBottom = scrollY + vh;
         const isMobile = window.innerWidth < 768;
 
@@ -91,11 +92,9 @@ $(function () {
         const Hc = HEIGHT_COLLAPSED;
         const He = computeExpandedHeight();
 
-        // 1rem real en px
         const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const topOffset = 1 * rem;
 
-        // Desktop centrado / Mobile arriba con offset
         const centerSmall = isMobile
             ? vh - Hc - topOffset
             : Math.round((vh - Hc) / 2);
@@ -132,14 +131,15 @@ $(function () {
             }
         }
 
-        // ----- BLEND CONTROL -----
+        // ---- BLEND CONTROL ----
 
         let disableBlend = false;
         const overlayRect = overlay.getBoundingClientRect();
 
         if (header) {
             const headerRect = header.getBoundingClientRect();
-            if (overlayRect.top < headerRect.bottom && overlayRect.bottom > headerRect.top) {
+            if (overlayRect.top < headerRect.bottom &&
+                overlayRect.bottom > headerRect.top) {
                 disableBlend = true;
             }
         }
@@ -174,35 +174,31 @@ $(function () {
         });
     }
 
-    let resizeTimeout;
     function onResize() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
+        // Solo recalculamos si cambia el ancho real (rotación / breakpoint)
+        if (window.innerWidth !== window.__lastWidth) {
+            window.__lastWidth = window.innerWidth;
+            setFixedViewportHeight();
             update();
-        }, 150); // espera a que el viewport móvil se estabilice
+        }
     }
 
     const ro = ("ResizeObserver" in window)
-        ? new ResizeObserver(onResize)
+        ? new ResizeObserver(update)
         : null;
 
     if (ro) ro.observe(footer);
 
     imagesReady().then(() => {
 
+        setFixedViewportHeight();
         update();
 
         $(window).on("scroll", onScroll);
         $(window).on("resize", onResize);
-
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener("resize", onResize);
-        }
     });
 
 })();
-
-
 
   // SILLA ENTORNO
   (function () {
