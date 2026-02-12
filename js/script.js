@@ -27,8 +27,8 @@ $(function () {
   });
 
  // LOGO OVERLAY RESPONSIVE
-// LOGO OVERLAY RESPONSIVE
 (function () {
+
     const $overlay = $("#logo-overlay");
     const overlay = $overlay[0];
     const imgs = $overlay.find(".logo-part").toArray();
@@ -53,6 +53,7 @@ $(function () {
 
     function computeExpandedHeight() {
         const vw = window.innerWidth;
+
         const sumRatios = imgs.reduce((acc, img) => {
             const r = (img.naturalWidth && img.naturalHeight)
                 ? img.naturalWidth / img.naturalHeight
@@ -69,9 +70,16 @@ $(function () {
 
     const HEIGHT_COLLAPSED = 20;
 
+    function getViewportHeight() {
+        return window.visualViewport
+            ? window.visualViewport.height
+            : document.documentElement.clientHeight;
+    }
+
     function update() {
+
         const scrollY = window.scrollY;
-        const vh = window.innerHeight;
+        const vh = getViewportHeight();
         const viewportBottom = scrollY + vh;
         const isMobile = window.innerWidth < 768;
 
@@ -82,23 +90,30 @@ $(function () {
         const Hc = HEIGHT_COLLAPSED;
         const He = computeExpandedHeight();
 
-        // --- PUNTO DE PARTIDA ---
-        // Desktop: centrado vertical, Mobile: arriba
-        const centerSmall = isMobile ? vh - Hc : Math.round((vh - Hc) / 2);
+        // 1rem real en px
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const topOffset = 12;
+
+        // Desktop centrado / Mobile arriba con offset
+        const centerSmall = isMobile
+            ? vh - Hc - topOffset
+            : Math.round((vh - Hc) / 2);
 
         if (viewportBottom < footerTopAbs) {
+
             overlay.classList.remove("footer-bottom");
             overlay.style.setProperty("--logo-h", Hc + "px");
             overlay.style.bottom = centerSmall + "px";
+
         } else {
+
             const span = Math.max(1, footerBottomAbs - footerTopAbs);
             const k = clamp((viewportBottom - footerTopAbs) / span, 0, 1);
 
             if (viewportBottom <= footerBottomAbs) {
-                // Interpolamos la posición hacia abajo
+
                 const bottomPx = Math.round(lerp(centerSmall, 0, k));
 
-                // Interpolamos el tamaño
                 const growStart = 0.6;
                 const growT = (k <= growStart) ? 0 : (k - growStart) / (1 - growStart);
                 const Ht = Math.round(lerp(Hc, He, clamp(growT, 0, 1)));
@@ -106,7 +121,9 @@ $(function () {
                 overlay.classList.remove("footer-bottom");
                 overlay.style.bottom = bottomPx + "px";
                 overlay.style.setProperty("--logo-h", Ht + "px");
+
             } else {
+
                 overlay.style.bottom = "0px";
                 overlay.style.setProperty("--logo-h", He + "px");
                 overlay.classList.add("footer-bottom");
@@ -114,23 +131,23 @@ $(function () {
             }
         }
 
-        // --- Blend mode ---
+        // ----- BLEND CONTROL -----
+
         let disableBlend = false;
         const overlayRect = overlay.getBoundingClientRect();
 
         if (header) {
             const headerRect = header.getBoundingClientRect();
-            const overlapHeader =
-                overlayRect.top < headerRect.bottom && overlayRect.bottom > headerRect.top;
-            if (overlapHeader) disableBlend = true;
+            if (overlayRect.top < headerRect.bottom && overlayRect.bottom > headerRect.top) {
+                disableBlend = true;
+            }
         }
 
         const footerRectViewport = footer.getBoundingClientRect();
-        const overlapFooter =
-            overlayRect.top < footerRectViewport.bottom &&
-            overlayRect.bottom > footerRectViewport.top;
-
-        if (overlapFooter) disableBlend = true;
+        if (overlayRect.top < footerRectViewport.bottom &&
+            overlayRect.bottom > footerRectViewport.top) {
+            disableBlend = true;
+        }
 
         const offcanvasOpen = $("body").hasClass("offcanvas-open");
         if (offcanvasOpen) disableBlend = true;
@@ -147,7 +164,7 @@ $(function () {
     }
 
     let ticking = false;
-    function onScrollOrResize() {
+    function onScroll() {
         if (ticking) return;
         ticking = true;
         requestAnimationFrame(() => {
@@ -156,21 +173,34 @@ $(function () {
         });
     }
 
+    let resizeTimeout;
+    function onResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            update();
+        }, 150); // espera a que el viewport móvil se estabilice
+    }
+
     const ro = ("ResizeObserver" in window)
-        ? new ResizeObserver(onScrollOrResize)
+        ? new ResizeObserver(onResize)
         : null;
 
     if (ro) ro.observe(footer);
 
     imagesReady().then(() => {
-        update();
-        $(window).on("scroll", onScrollOrResize);
-        $(window).on("resize", onScrollOrResize);
 
-        const mq = window.matchMedia?.(`(resolution: ${window.devicePixelRatio}dppx)`);
-        if (mq && mq.addEventListener) mq.addEventListener("change", onScrollOrResize);
+        update();
+
+        $(window).on("scroll", onScroll);
+        $(window).on("resize", onResize);
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", onResize);
+        }
     });
+
 })();
+
 
 
 
