@@ -27,9 +27,7 @@ $(function () {
   });
 
   // LOGO OVERLAY RESPONSIVE
-// LOGO OVERLAY RESPONSIVE
 (function () {
-
     const $overlay = $("#logo-overlay");
     const overlay = $overlay[0];
     const imgs = $overlay.find(".logo-part").toArray();
@@ -41,13 +39,6 @@ $(function () {
 
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const lerp = (a, b, t) => a + (b - a) * t;
-
-    let fixedVH;
-    window.__lastWidth = window.innerWidth;
-
-    function setFixedViewportHeight() {
-        fixedVH = document.documentElement.clientHeight;
-    }
 
     function imagesReady() {
         return Promise.all(
@@ -61,7 +52,6 @@ $(function () {
 
     function computeExpandedHeight() {
         const vw = window.innerWidth;
-
         const sumRatios = imgs.reduce((acc, img) => {
             const r = (img.naturalWidth && img.naturalHeight)
                 ? img.naturalWidth / img.naturalHeight
@@ -79,9 +69,8 @@ $(function () {
     const HEIGHT_COLLAPSED = 20;
 
     function update() {
-
         const scrollY = window.scrollY;
-        const vh = fixedVH; // ALTURA CONGELADA
+        const vh = window.innerHeight;
         const viewportBottom = scrollY + vh;
         const isMobile = window.innerWidth < 768;
 
@@ -92,28 +81,24 @@ $(function () {
         const Hc = HEIGHT_COLLAPSED;
         const He = computeExpandedHeight();
 
-        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        // --- PUNTO DE PARTIDA ---
+        // Desktop: centrado vertical, Mobile: arriba
         const topOffset = 12;
-
-        const centerSmall = isMobile
-            ? vh - Hc - topOffset
-            : Math.round((vh - Hc) / 2);
+        const centerSmall = isMobile ? vh - Hc - topOffset : Math.round((vh - Hc) / 2);
 
         if (viewportBottom < footerTopAbs) {
-
             overlay.classList.remove("footer-bottom");
             overlay.style.setProperty("--logo-h", Hc + "px");
             overlay.style.bottom = centerSmall + "px";
-
         } else {
-
             const span = Math.max(1, footerBottomAbs - footerTopAbs);
             const k = clamp((viewportBottom - footerTopAbs) / span, 0, 1);
 
             if (viewportBottom <= footerBottomAbs) {
-
+                // Interpolamos la posición hacia abajo
                 const bottomPx = Math.round(lerp(centerSmall, 0, k));
 
+                // Interpolamos el tamaño
                 const growStart = 0.6;
                 const growT = (k <= growStart) ? 0 : (k - growStart) / (1 - growStart);
                 const Ht = Math.round(lerp(Hc, He, clamp(growT, 0, 1)));
@@ -121,9 +106,7 @@ $(function () {
                 overlay.classList.remove("footer-bottom");
                 overlay.style.bottom = bottomPx + "px";
                 overlay.style.setProperty("--logo-h", Ht + "px");
-
             } else {
-
                 overlay.style.bottom = "0px";
                 overlay.style.setProperty("--logo-h", He + "px");
                 overlay.classList.add("footer-bottom");
@@ -131,24 +114,23 @@ $(function () {
             }
         }
 
-        // ---- BLEND CONTROL ----
-
+        // --- Blend mode ---
         let disableBlend = false;
         const overlayRect = overlay.getBoundingClientRect();
 
         if (header) {
             const headerRect = header.getBoundingClientRect();
-            if (overlayRect.top < headerRect.bottom &&
-                overlayRect.bottom > headerRect.top) {
-                disableBlend = true;
-            }
+            const overlapHeader =
+                overlayRect.top < headerRect.bottom && overlayRect.bottom > headerRect.top;
+            if (overlapHeader) disableBlend = true;
         }
 
         const footerRectViewport = footer.getBoundingClientRect();
-        if (overlayRect.top < footerRectViewport.bottom &&
-            overlayRect.bottom > footerRectViewport.top) {
-            disableBlend = true;
-        }
+        const overlapFooter =
+            overlayRect.top < footerRectViewport.bottom &&
+            overlayRect.bottom > footerRectViewport.top;
+
+        if (overlapFooter) disableBlend = true;
 
         const offcanvasOpen = $("body").hasClass("offcanvas-open");
         if (offcanvasOpen) disableBlend = true;
@@ -165,7 +147,7 @@ $(function () {
     }
 
     let ticking = false;
-    function onScroll() {
+    function onScrollOrResize() {
         if (ticking) return;
         ticking = true;
         requestAnimationFrame(() => {
@@ -174,31 +156,22 @@ $(function () {
         });
     }
 
-    function onResize() {
-        // Solo recalculamos si cambia el ancho real (rotación / breakpoint)
-        if (window.innerWidth !== window.__lastWidth) {
-            window.__lastWidth = window.innerWidth;
-            setFixedViewportHeight();
-            update();
-        }
-    }
-
     const ro = ("ResizeObserver" in window)
-        ? new ResizeObserver(update)
+        ? new ResizeObserver(onScrollOrResize)
         : null;
 
     if (ro) ro.observe(footer);
 
     imagesReady().then(() => {
-
-        setFixedViewportHeight();
         update();
+        $(window).on("scroll", onScrollOrResize);
+        $(window).on("resize", onScrollOrResize);
 
-        $(window).on("scroll", onScroll);
-        $(window).on("resize", onResize);
+        const mq = window.matchMedia?.(`(resolution: ${window.devicePixelRatio}dppx)`);
+        if (mq && mq.addEventListener) mq.addEventListener("change", onScrollOrResize);
     });
-
 })();
+
 
   // SILLA ENTORNO
   (function () {
