@@ -223,7 +223,7 @@ p {
 ---------------------------------------------------------------------------------------------------------------- */
 header {
   padding-top: 60px;
-  min-height: 100svh; 
+  height: 100vh; 
   background-color: var(--beige) ;    
 }
 
@@ -412,7 +412,7 @@ main section:nth-child(3) p {
 /*SECTION 4
 --------------------------------------------------------------------------------------------------------------- */
 main section:nth-child(5) {
-  min-height: 100svh;
+  height: 100vh;
   background-color: var(--green) !important;
 }
 
@@ -567,7 +567,7 @@ main section:nth-child(6) {
 /* SECCTION VIDEO ---------------------------------------------------------------------------------------------------------------- */
 #video-section {
   width: 100%;
-  min-height: 100svh;
+  height: 100vh;
   position: relative;
 }
 
@@ -589,7 +589,7 @@ main section:nth-child(6) {
 ---------------------------------------------------------------------------------------------------------------
 */
 #section6 {
-  min-height: 100svh;
+  height: 100vh;
   overflow: hidden;
   position: relative;
 }
@@ -949,7 +949,7 @@ footer {
 
   header {
     height: auto;
-    min-height: 100svh;
+    height: 100vh;
     padding-top: 90px;
     padding-bottom: 60px;
   }
@@ -969,7 +969,7 @@ footer {
 
   .offcanvas-header {
     flex-direction: column;
-    min-height: 100svh;
+    height: 100vh;
     justify-content: flex-start !important;
   }
 
