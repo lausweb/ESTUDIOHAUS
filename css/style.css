@@ -47,7 +47,7 @@ html {
 
 body {
     width: 100%;
-    overflow-x: hidden !important;
+
     -ms-overflow-style: none;
     background-color: var(--beige) !important;
 }
@@ -138,7 +138,7 @@ p {
   border: none;
   color: inherit;
   position: absolute;
-  top: 0.5rem;
+  top: 0.05rem;
 }
 
 
@@ -787,7 +787,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;              
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between; 
   align-items: center;
@@ -1002,7 +1002,7 @@ footer {
   }
 
   .custom-img {
-    width: 31%;
+    width: 29%;
   }
 
   .left-images{
@@ -1038,10 +1038,12 @@ footer {
   .hero-title-bottom {
     font-size: clamp(2.2rem, 8vw, 3rem);
   }
+
   #logo-overlay {
     padding-top: 0.5rem !important;
-
    }
+
+
 }
 
 
@@ -1130,6 +1132,12 @@ footer {
   footer .container {
     margin-left: 1.5rem !important;
   }
+
+  .row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
@@ -1149,7 +1157,7 @@ footer {
   }
 
   .img-bottom {
-    width: 80% !important;
+    width: 50% !important;
     margin: 0 auto;
     display: block;
     align-self: center !important;
@@ -1186,4 +1194,5 @@ footer {
   .info-coworking h2 {
     font-size: 1.5rem !important;
   }
+
 }
