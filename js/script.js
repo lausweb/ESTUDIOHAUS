@@ -292,64 +292,40 @@ $(function () {
 
     setInterval(applyStep, 300);
   })();
+(function () {
+  const $title = $(".anim-title").first();
+  if (!$title.length) return;
 
-  // UN (TU) LUGAR
-  (function () {
-    const $title = $(".anim-title").first();
-    if (!$title.length) return;
+  const section = $title.closest("section")[0];
+  if (!section) return;
 
-    const section = $title.closest("section")[0];
-    if (!section) return;
+  let hasActivated = false;
 
-    let hasActivated = false;
+  function checkPosition() {
+    if (hasActivated) return;
 
-    function lockScroll() {
-      $("body").css("overflow", "hidden");
+    const rect = section.getBoundingClientRect();
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const threshold = 12; // 2rem en px
+
+    // Cuánto ha entrado la sección en viewport
+    const scrolledInside = -rect.top;
+
+    if (scrolledInside >= threshold) {
+      hasActivated = true;
+      $title.addClass("active");
+
+      $(window).off("scroll", onScroll);
     }
+  }
 
-    function unlockScroll() {
-      $("body").css("overflow", "");
-    }
+  function onScroll() {
+    requestAnimationFrame(checkPosition);
+  }
 
-    function checkPosition() {
-      if (hasActivated) return;
-
-      const rect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-
-      const sectionCenter = rect.top + rect.height / 2;
-      const viewportCenter = viewportHeight / 2;
-
-      const distance = Math.abs(sectionCenter - viewportCenter);
-      const threshold = viewportHeight * 0.015;
-
-      if (distance <= threshold) {
-        hasActivated = true;
-
-        lockScroll();
-        $title.addClass("active");
-
-        setTimeout(unlockScroll, 1800);
-
-        $(window).off("scroll", onScroll);
-        $(window).off("resize", onScroll);
-      }
-    }
-
-    let ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        checkPosition();
-      });
-    }
-
-    checkPosition();
-    $(window).on("scroll", onScroll);
-    $(window).on("resize", onScroll);
-  })();
+  $(window).on("scroll", onScroll);
+  checkPosition();
+})();
 
   // ACORDEÓN ESPACIOS
   (function () {
