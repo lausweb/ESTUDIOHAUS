@@ -453,34 +453,53 @@ $items.each(function (index) {
 // SILLA QUE ROTA
 document.addEventListener("DOMContentLoaded", () => {
   const chair = document.querySelector(".hero-chair");
-  if (!chair || typeof gsap === "undefined") return; 
+  if (!chair || typeof gsap === "undefined") return;
 
   const maxRotation = 15;
   const easeSpeed = 0.4;
 
-  document.addEventListener("mousemove", (e) => {
-    const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
-    const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
+  // Detecta si el dispositivo tiene hover (ratón)
+  const hasMouse = window.matchMedia("(hover: hover)").matches;
 
+  if (hasMouse) {
+    // Interacción con ratón
+    document.addEventListener("mousemove", (e) => {
+      const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
+      const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
+
+      gsap.to(chair, {
+        rotationY: xPercent * maxRotation,
+        rotationX: -yPercent * maxRotation,
+        transformPerspective: 800,
+        transformOrigin: "center",
+        duration: easeSpeed,
+        ease: "power2.out"
+      });
+    });
+
+    document.addEventListener("mouseleave", () => {
+      gsap.to(chair, {
+        rotationX: 0,
+        rotationY: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      });
+    });
+  } else {
+    // Animación automática para táctil / móvil
     gsap.to(chair, {
-      rotationY: xPercent * maxRotation,
-      rotationX: -yPercent * maxRotation,
+      rotationY: maxRotation,
+      rotationX: maxRotation / 2,
+      duration: 2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
       transformPerspective: 800,
-      transformOrigin: "center",
-      duration: easeSpeed,
-      ease: "power2.out"
+      transformOrigin: "center"
     });
-  });
-
-  document.addEventListener("mouseleave", () => {
-    gsap.to(chair, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 1.2,
-      ease: "power3.out"
-    });
-  });
+  }
 });
+
 
 // EFECTO PINTAR
 document.addEventListener("DOMContentLoaded", () => {
