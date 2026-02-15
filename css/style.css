@@ -980,10 +980,12 @@ footer {
     color: var(--black) !important;
   }
 
-  .navbar-blur {
-    mix-blend-mode: normal !important;
-  }
 
+
+  body.offcanvas-open .navbar-blur {
+    mix-blend-mode: normal !important;
+    color: var(--black) !important;
+  }
   .menu-blur {
     position: absolute;
     top: 40vh;
