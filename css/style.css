@@ -617,6 +617,9 @@ main section:nth-child(6) {
   transform: scale(1.05);
 }
 
+.draggable-item {
+  touch-action: none;
+}
 
 
 

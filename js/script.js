@@ -1,30 +1,69 @@
-$(function () {
+const $items = $(".draggable-item");
+const section = document.querySelector("#section6");
+const savedPositions = JSON.parse(localStorage.getItem("draggablePositions") || "{}");
 
-  // DRAGGABLE
-  const $items = $(".draggable-item");
-  const sectionSelector = "#section6";
-  const savedPositions = JSON.parse(localStorage.getItem("draggablePositions") || "{}");
+$items.each(function (index) {
+  const el = this;
+  const id = "item-" + index;
+  el.id = id;
 
-  $items.each(function (index) {
-    const id = "item-" + index;
-    $(this).attr("id", id);
+  // Posición aleatoria inicial
+  if (savedPositions[id]) {
+    el.style.left = savedPositions[id].left;
+    el.style.top = savedPositions[id].top;
+  } else {
+    const sectionRect = section.getBoundingClientRect();
+    const x = Math.random() * (sectionRect.width - el.offsetWidth);
+    const y = Math.random() * (sectionRect.height - el.offsetHeight);
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+  }
 
-    if (savedPositions[id]) {
-      $(this).css(savedPositions[id]);
-    } else {
-      const x = Math.random() * ($(window).width() - 200);
-      const y = Math.random() * ($(window).height() - 300);
-      $(this).css({ top: y + "px", left: x + "px" });
-    }
+  let offsetX, offsetY;
+  let isDragging = false;
 
-    $(this).draggable({
-      containment: sectionSelector,
-      stop: function (event, ui) {
-        savedPositions[id] = ui.position;
-        localStorage.setItem("draggablePositions", JSON.stringify(savedPositions));
-      }
-    });
+  el.addEventListener("pointerdown", (e) => {
+    e.preventDefault(); // evita selecciones y scroll mientras arrastras
+    isDragging = true;
+    el.setPointerCapture(e.pointerId);
+
+    const rect = el.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    el.style.cursor = "grabbing";
   });
+
+  el.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+
+    const sectionRect = section.getBoundingClientRect();
+
+    let x = e.clientX - sectionRect.left - offsetX;
+    let y = e.clientY - sectionRect.top - offsetY;
+
+    // Contención dentro del área
+    x = Math.max(0, Math.min(x, sectionRect.width - el.offsetWidth));
+    y = Math.max(0, Math.min(y, sectionRect.height - el.offsetHeight));
+
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+  });
+
+  el.addEventListener("pointerup", (e) => {
+    isDragging = false;
+    el.releasePointerCapture(e.pointerId);
+    el.style.cursor = "grab";
+
+    savedPositions[id] = {
+      left: el.style.left,
+      top: el.style.top
+    };
+
+    localStorage.setItem("draggablePositions", JSON.stringify(savedPositions));
+  });
+});
+
 
  // LOGO OVERLAY RESPONSIVE
 (function () {
@@ -90,11 +129,9 @@ $(function () {
         const Hc = HEIGHT_COLLAPSED;
         const He = computeExpandedHeight();
 
-        // 1rem real en px
         const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const topOffset = 12;
 
-        // Desktop centrado / Mobile arriba con offset
         const centerSmall = isMobile
             ? vh - Hc - topOffset
             : Math.round((vh - Hc) / 2);
@@ -130,8 +167,6 @@ $(function () {
                 footer.style.paddingBottom = (He + 150) + "px";
             }
         }
-
-        // ----- BLEND CONTROL -----
 
         let disableBlend = false;
         const overlayRect = overlay.getBoundingClientRect();
@@ -178,7 +213,7 @@ $(function () {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             update();
-        }, 150); // espera a que el viewport móvil se estabilice
+        }, 150); 
     }
 
     const ro = ("ResizeObserver" in window)
@@ -292,6 +327,8 @@ $(function () {
 
     setInterval(applyStep, 300);
   })();
+
+  // ANIMACIÓN Tu lugar
 (function () {
   const $title = $(".anim-title").first();
   if (!$title.length) return;
@@ -301,19 +338,29 @@ $(function () {
 
   let hasActivated = false;
 
+  function lockScroll() {
+    $("body").css("overflow", "hidden");
+  }
+
+  function unlockScroll() {
+    $("body").css("overflow", "");
+  }
+
   function checkPosition() {
     if (hasActivated) return;
 
     const rect = section.getBoundingClientRect();
-    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const threshold = 12; // 2rem en px
-
-    // Cuánto ha entrado la sección en viewport
+    const threshold = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize); // 2rem
     const scrolledInside = -rect.top;
 
     if (scrolledInside >= threshold) {
       hasActivated = true;
-      $title.addClass("active");
+
+      lockScroll();                // bloqueamos scroll
+      $title.addClass("active");   // activamos animación
+
+      // desbloqueamos scroll al terminar la animación
+      setTimeout(unlockScroll, 1800);
 
       $(window).off("scroll", onScroll);
     }
@@ -326,6 +373,7 @@ $(function () {
   $(window).on("scroll", onScroll);
   checkPosition();
 })();
+
 
   // ACORDEÓN ESPACIOS
   (function () {
@@ -384,7 +432,6 @@ $(function () {
     $(window).on("resize", onScrollOrResize);
   })();
 
-  // OFFCANVAS → DESACTIVAR DIFFERENCE
   (function () {
     const $offcanvas = $("#offcanvasNavbar");
     if (!$offcanvas.length) return;
@@ -400,13 +447,13 @@ $(function () {
     });
   })();
 
-});
+
 
 
 // SILLA QUE ROTA
 document.addEventListener("DOMContentLoaded", () => {
   const chair = document.querySelector(".hero-chair");
-  if (!chair || typeof gsap === "undefined") return; // ← IMPORTANTE
+  if (!chair || typeof gsap === "undefined") return; 
 
   const maxRotation = 15;
   const easeSpeed = 0.4;
@@ -434,15 +481,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 // EFECTO PINTAR
 document.addEventListener("DOMContentLoaded", () => {
 
   const section = document.getElementById("halo-section");
   const canvas = document.getElementById("trail-canvas");
-  if (!section || !canvas) return; // ← si no existen en esta página, salimos
+  if (!section || !canvas) return; 
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return; // por seguridad extra
+  if (!ctx) return; 
 
   function resizeCanvas() {
     canvas.width = section.clientWidth;
