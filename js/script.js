@@ -350,16 +350,15 @@ $items.each(function (index) {
     if (hasActivated) return;
 
     const rect = section.getBoundingClientRect();
-    const threshold = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize); // 2rem
+    const threshold = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize); 
     const scrolledInside = -rect.top;
 
     if (scrolledInside >= threshold) {
       hasActivated = true;
 
-      lockScroll();                // bloqueamos scroll
-      $title.addClass("active");   // activamos animación
+      lockScroll();               
+      $title.addClass("active");   
 
-      // desbloqueamos scroll al terminar la animación
       setTimeout(unlockScroll, 1800);
 
       $(window).off("scroll", onScroll);
@@ -453,53 +452,34 @@ $items.each(function (index) {
 // SILLA QUE ROTA
 document.addEventListener("DOMContentLoaded", () => {
   const chair = document.querySelector(".hero-chair");
-  if (!chair || typeof gsap === "undefined") return;
+  if (!chair || typeof gsap === "undefined") return; 
 
   const maxRotation = 15;
   const easeSpeed = 0.4;
 
-  // Detecta si el dispositivo tiene hover (ratón)
-  const hasMouse = window.matchMedia("(hover: hover)").matches;
+  document.addEventListener("mousemove", (e) => {
+    const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
+    const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
 
-  if (hasMouse) {
-    // Interacción con ratón
-    document.addEventListener("mousemove", (e) => {
-      const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
-      const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
-
-      gsap.to(chair, {
-        rotationY: xPercent * maxRotation,
-        rotationX: -yPercent * maxRotation,
-        transformPerspective: 800,
-        transformOrigin: "center",
-        duration: easeSpeed,
-        ease: "power2.out"
-      });
-    });
-
-    document.addEventListener("mouseleave", () => {
-      gsap.to(chair, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 1.2,
-        ease: "power3.out"
-      });
-    });
-  } else {
-    // Animación automática para táctil / móvil
     gsap.to(chair, {
-      rotationY: maxRotation,
-      rotationX: maxRotation / 1,
-      duration: 2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
+      rotationY: xPercent * maxRotation,
+      rotationX: -yPercent * maxRotation,
       transformPerspective: 800,
-      transformOrigin: "center"
+      transformOrigin: "center",
+      duration: easeSpeed,
+      ease: "power2.out"
     });
-  }
-});
+  });
 
+  document.addEventListener("mouseleave", () => {
+    gsap.to(chair, {
+      rotationX: 0,
+      rotationY: 0,
+      duration: 1.2,
+      ease: "power3.out"
+    });
+  });
+});
 
 // EFECTO PINTAR
 document.addEventListener("DOMContentLoaded", () => {
@@ -585,3 +565,57 @@ document.querySelectorAll('a[href^="#"]').forEach((enlace) => {
     });
   });
 });
+
+//header animación 
+document.addEventListener("DOMContentLoaded", () => {
+  // Activar solo en pantallas ≤1040px
+  if (!window.matchMedia("(max-width: 1040px)").matches) return;
+
+  const header = document.querySelector("header");
+  const bgAnim = header.querySelector(".bg-anim");
+
+  // Lista de imágenes de muebles
+  const muebles = [
+    "media/img/img_muebles_sinfondo/butaca_verde.png",
+    "media/img/img_muebles_sinfondo/butaca_azul_cielo.png",
+    "media/img/img_muebles_sinfondo/silla_naranja.png"
+    // ...puedes añadir más
+  ];
+
+  muebles.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.classList.add("mueble-svg");
+    bgAnim.appendChild(img);
+
+    const headerRect = header.getBoundingClientRect();
+
+    img.onload = () => {
+      // Posición inicial aleatoria
+      const xStart = Math.random() * (headerRect.width - img.width);
+      const yStart = Math.random() * (headerRect.height - img.height);
+      img.style.transform = `translate(${xStart}px, ${yStart}px)`;
+
+      function animate() {
+        const x = Math.random() * (headerRect.width - img.width);
+        const y = Math.random() * (headerRect.height - img.height);
+        const rotation = (Math.random() - 0.5) * 60; // solo rotación
+        const duration = 5 + Math.random() * 5;
+
+        gsap.to(img, {
+          x, 
+          y,
+          rotation,
+          duration,
+          ease: "sine.inOut",
+          onComplete: animate
+        });
+      }
+
+      animate();
+    };
+  });
+});
+
+
+

@@ -929,6 +929,22 @@ footer {
     max-height: 200px;
   }
 
+
+
+.bg-anim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mueble-svg {
+  position: absolute;
+  width: 130px; 
+  height: auto;
+}
+
+
     header img.mueble {
     display: none;
   }
