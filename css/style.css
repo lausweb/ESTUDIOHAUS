@@ -767,6 +767,9 @@ main section:nth-child(6) {
   background-color: black;
 }
 
+.none {
+  display: block;
+}
 
 
 
@@ -1033,6 +1036,7 @@ footer {
 
   #hero-tienda {
     padding-top: 6rem;
+    padding-bottom: 0;
   }
 
   .hero-chair {
@@ -1048,6 +1052,9 @@ footer {
     padding-top: 0.5rem !important;
    }
 
+   .none {
+    display: none;
+   }
 
 }
 

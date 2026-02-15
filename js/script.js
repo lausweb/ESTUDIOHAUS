@@ -455,14 +455,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const chair = document.querySelector(".hero-chair");
   if (!chair || typeof gsap === "undefined") return;
 
-  const maxRotation = 15;
-  const easeSpeed = 0.4;
-
-  // Detecta si el dispositivo tiene hover (ratón)
+  // Detecta si hay ratón
   const hasMouse = window.matchMedia("(hover: hover)").matches;
 
   if (hasMouse) {
     // Interacción con ratón
+    const maxRotation = 15;
+    const easeSpeed = 0.4;
+
     document.addEventListener("mousemove", (e) => {
       const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
       const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -485,20 +485,36 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out"
       });
     });
+
   } else {
-    // Animación automática para táctil / móvil
-    gsap.to(chair, {
-      rotationY: maxRotation,
-      rotationX: maxRotation / 2,
-      duration: 2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-      transformPerspective: 800,
-      transformOrigin: "center"
-    });
+    // Animación natural móvil / táctil
+    const sectionRect = chair.parentElement.getBoundingClientRect();
+    const minX = 0;
+    const maxX = sectionRect.width - chair.offsetWidth;
+    const minY = 0;
+    const maxY = sectionRect.height - chair.offsetHeight;
+
+    function randomMotion() {
+      const x = Math.random() * (maxX - minX) + minX;
+      const y = Math.random() * (maxY - minY) + minY;
+      const rotY = (Math.random() - 0.5) * 30; // rotación aleatoria
+      const rotX = (Math.random() - 0.5) * 20;
+
+      gsap.to(chair, {
+        x: x,
+        y: y,
+        rotationY: rotY,
+        rotationX: rotX,
+        duration: 5 + Math.random() * 5, // velocidad variable
+        ease: "sine.inOut",
+        onComplete: randomMotion
+      });
+    }
+
+    randomMotion();
   }
 });
+
 
 
 // EFECTO PINTAR
