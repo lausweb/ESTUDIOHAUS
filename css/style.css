@@ -720,7 +720,8 @@ main section:nth-child(6) {
 
 #hero-tienda {
   padding-top: 7rem;
-  padding-bottom: 4rem;
+  margin-bottom: 2rem;
+  height: fit-content !important;
 }
 
 .hero-title-top,
@@ -758,7 +759,7 @@ main section:nth-child(6) {
 
 .hero-paragraph {
   text-align: center !important;
-  margin-top: 2.5rem;
+  margin: 2.5rem 0 !important;
   font-size: 1rem;
   line-height: 1.5;
   padding: 0;
@@ -999,8 +1000,6 @@ footer {
   .offcanvas .navbar-nav .nav-link h5 {
     color: var(--black) !important;
   }
-
-
 
   body.offcanvas-open .navbar-blur {
     mix-blend-mode: normal !important;
