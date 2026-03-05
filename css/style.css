@@ -899,6 +899,10 @@ footer {
     max-height: 440px;
   }
 
+  .linea-1, .linea-2{
+    margin-top: 1.2rem;
+  }
+
 }
 
 
