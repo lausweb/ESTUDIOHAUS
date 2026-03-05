@@ -238,7 +238,7 @@ header img {
 }
 
 header img.silla-dos-filas {
-  max-width: 220px;
+  max-width: 210px;
 }
 
 header .text-bottom {
@@ -252,7 +252,13 @@ header .container:first-child  {
   max-width: 1250px !important;
 }
 
+.hover-scale {
+  transition: transform 0.3s ease;
+}
 
+.hover-scale:hover {
+  transform: scale(1.05);
+}
 
 
 
@@ -834,6 +840,68 @@ footer {
 
 /* RESPONSIVE
 ------------------------------------------------------------------------------------------------------------- */
+@media (min-width: 2100px) {
+  h1 {
+      font-size: 10rem !important;
+  }
+
+  h2 {
+      font-size: 7rem !important;
+  }
+
+  h3 {
+      font-size: 1.8rem !important;
+  }
+
+  h4 {
+      font-size: 2.4rem !important;
+  }
+
+  h5 {
+    font-size: 2rem !important;
+  }
+
+  p {
+      font-size: 1.8rem;
+  }
+
+  header img.silla-dos-filas {
+    max-width: 290px;
+  }
+
+  header .container:first-child  {
+      max-width: 1750px !important;
+  }
+
+  .falling-chair {
+    max-width: 350px;
+  }
+
+  .hero-image {
+    max-width: 500px !important;
+  }
+
+  .custom-btn {
+    font-size: 2.2rem;
+  }
+
+  .draggable-area img {
+    width: 250px;
+  }
+
+  .hero-paragraph {
+    font-size: 1.8rem;
+  }
+  .img-sello {
+    width: min(55vw, 700px) !important;
+  }
+  .lugar-img {
+    max-height: 440px;
+  }
+
+}
+
+
 @media screen and (max-width: 1500px) {
 
   h1 {

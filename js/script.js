@@ -481,6 +481,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+
 // EFECTO PINTAR
 document.addEventListener("DOMContentLoaded", () => {
 
